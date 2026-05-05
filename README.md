@@ -19,7 +19,7 @@ Desenvolver uma aplicação web com **frontend** e **backend** que demonstre uma
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend
-- **Java 17+** com **Spring Boot 3**
+- **Java 21** com **Spring Boot 3**
 - Spring Security + **JWT** (JSON Web Token)
 - Spring Data JPA
 - PostgreSQL (ou MySQL)
