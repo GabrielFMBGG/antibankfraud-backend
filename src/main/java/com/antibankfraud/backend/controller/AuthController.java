@@ -8,6 +8,7 @@ import com.antibankfraud.backend.entity.Usuario;
 import com.antibankfraud.backend.service.AuthService;
 import com.antibankfraud.backend.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registro(@Valid @RequestBody Usuario usuario) {
         try {
             Usuario criado = usuarioService.criar(usuario);
             return ResponseEntity.ok(criado);
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO dto,
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO dto,
                                    HttpServletRequest request) {
         try {
             String ip = request.getRemoteAddr();
@@ -46,7 +47,7 @@ public class AuthController {
             );
             String token = jwtUtil.gerarToken(usuario.getEmail());
             return ResponseEntity.ok(new LoginResponseDTO(
-                token, usuario.getNome(),
+                usuario.getId(), token, usuario.getNome(),
                 usuario.getEmail(), usuario.isModoRuaAtivo()
             ));
         } catch (RuntimeException e) {
@@ -70,14 +71,14 @@ public class AuthController {
     }
 
     @PostMapping("/emergencia")
-    public ResponseEntity<?> loginEmergencia(@RequestBody OTPRequestDTO dto,
+    public ResponseEntity<?> loginEmergencia(@Valid @RequestBody OTPRequestDTO dto,
                                               HttpServletRequest request) {
         try {
             String ip = request.getRemoteAddr();
             Usuario usuario = authService.loginEmergencia(dto.getEmail(), dto.getCodigo(), ip);
             String token = jwtUtil.gerarToken(usuario.getEmail());
             return ResponseEntity.ok(new LoginResponseDTO(
-                token, usuario.getNome(),
+                usuario.getId(), token, usuario.getNome(),
                 usuario.getEmail(), usuario.isModoRuaAtivo()
             ));
         } catch (RuntimeException e) {

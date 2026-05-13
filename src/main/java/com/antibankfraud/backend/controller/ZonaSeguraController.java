@@ -3,6 +3,7 @@ package com.antibankfraud.backend.controller;
 import com.antibankfraud.backend.dto.ZonaSeguraDTO;
 import com.antibankfraud.backend.entity.ZonaSegura;
 import com.antibankfraud.backend.service.ZonaSeguraService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ZonaSeguraController {
 
     @PostMapping("/usuario/{usuarioId}")
     public ResponseEntity<?> adicionar(@PathVariable Long usuarioId,
-                                        @RequestBody ZonaSeguraDTO dto) {
+                                        @Valid @RequestBody ZonaSeguraDTO dto) {
         try {
             ZonaSegura zona = new ZonaSegura();
             zona.setLatitude(dto.getLatitude());
@@ -37,7 +38,7 @@ public class ZonaSeguraController {
 
     @PutMapping("/{zonaId}")
     public ResponseEntity<?> atualizar(@PathVariable Long zonaId,
-                                        @RequestBody ZonaSeguraDTO dto) {
+                                        @Valid @RequestBody ZonaSeguraDTO dto) {
         try {
             ZonaSegura zona = new ZonaSegura();
             zona.setLatitude(dto.getLatitude());

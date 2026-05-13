@@ -2,6 +2,7 @@ package com.antibankfraud.backend.controller;
 
 import com.antibankfraud.backend.entity.Usuario;
 import com.antibankfraud.backend.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id,
-                                        @RequestBody Usuario dados) {
+                                        @Valid @RequestBody Usuario dados) {
         try {
             return ResponseEntity.ok(usuarioService.atualizar(id, dados));
         } catch (RuntimeException e) {

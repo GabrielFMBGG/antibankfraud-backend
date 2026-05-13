@@ -12,9 +12,9 @@ public class LocalizacaoService {
     @Autowired
     private ZonaSeguraRepository zonaSeguraRepository;
 
-    // Fórmula de Haversine — calcula distância entre dois pontos geográficos
+    // Fórmula de Haversine — calcula distância entre dois pontos geográficos em metros
     public double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
-        final int RAIO_TERRA = 6371000; // em metros
+        final int RAIO_TERRA = 6371000;
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
@@ -24,14 +24,18 @@ public class LocalizacaoService {
         return RAIO_TERRA * c;
     }
 
-    // Verifica se a localização está em ALGUMA zona segura do usuário
+    // Verifica se a localização está em ALGUMA zona segura do usuário.
+    // Se não há zonas cadastradas, libera o acesso — o usuário ainda
+    // não configurou restrições, então não deve ser bloqueado.
     public boolean estaNaZonaSegura(Long usuarioId, double lat, double lon) {
         List<ZonaSegura> zonas = zonaSeguraRepository.findByUsuarioId(usuarioId);
+
+        if (zonas.isEmpty()) return true;
 
         for (ZonaSegura zona : zonas) {
             double distancia = calcularDistancia(lat, lon, zona.getLatitude(), zona.getLongitude());
             if (distancia <= zona.getRaioMetros()) {
-                return true; // está dentro de pelo menos uma zona segura
+                return true;
             }
         }
         return false;
