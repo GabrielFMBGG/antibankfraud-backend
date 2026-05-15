@@ -1,5 +1,6 @@
 package com.antibankfraud.backend.service;
 
+import com.antibankfraud.backend.dto.AtualizarUsuarioDTO;
 import com.antibankfraud.backend.entity.Usuario;
 import com.antibankfraud.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UsuarioService {
 
     public Usuario criar(Usuario usuario) {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-            throw new RuntimeException("Email já cadastrado.");
+            throw new RuntimeException("E-mail já cadastrado.");
         }
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
@@ -33,12 +34,20 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
-    public Usuario atualizar(Long id, Usuario dadosNovos) {
+    // Usa DTO específico — sem exigir senha na atualização
+    public Usuario atualizar(Long id, AtualizarUsuarioDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
-        usuario.setNome(dadosNovos.getNome());
-        usuario.setEmailSecundario(dadosNovos.getEmailSecundario());
-        usuario.setTelefone(dadosNovos.getTelefone());
+        usuario.setNome(dto.getNome());
+
+        // Email secundário e telefone são opcionais
+        if (dto.getEmailSecundario() != null) {
+            usuario.setEmailSecundario(dto.getEmailSecundario().isBlank() ? null : dto.getEmailSecundario());
+        }
+        if (dto.getTelefone() != null) {
+            usuario.setTelefone(dto.getTelefone().isBlank() ? null : dto.getTelefone());
+        }
+
         return usuarioRepository.save(usuario);
     }
 
