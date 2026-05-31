@@ -60,6 +60,13 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/modo-rua")
+    public ResponseEntity<?> verificarModoRua(@RequestParam String email) {
+        return usuarioService.buscarPorEmail(email)
+                .map(u -> ResponseEntity.ok(java.util.Map.of("modoRuaAtivo", u.isModoRuaAtivo())))
+                .orElse(ResponseEntity.ok(java.util.Map.of("modoRuaAtivo", false)));
+    }
+
     @PostMapping("/otp/solicitar")
     public ResponseEntity<?> solicitarOTP(@RequestParam String email) {
         try {

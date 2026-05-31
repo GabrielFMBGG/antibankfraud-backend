@@ -35,7 +35,8 @@ public class SecurityConfig {
                     "/auth/login",
                     "/auth/registro",
                     "/auth/otp/solicitar",
-                    "/auth/emergencia"
+                    "/auth/emergencia",
+                    "/auth/modo-rua"
                 ).permitAll()
                 // Todo o resto exige token JWT
                 .anyRequest().authenticated()

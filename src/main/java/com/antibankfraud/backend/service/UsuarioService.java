@@ -34,6 +34,10 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
     // Usa DTO específico — sem exigir senha na atualização
     public Usuario atualizar(Long id, AtualizarUsuarioDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)

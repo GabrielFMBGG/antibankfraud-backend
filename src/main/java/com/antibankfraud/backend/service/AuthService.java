@@ -35,8 +35,19 @@ public class AuthService {
             throw new RuntimeException("Email ou senha inválidos.");
         }
 
-        // 3. Se Modo Rua estiver ativo, verifica localização
-        if (usuario.isModoRuaAtivo() && lat != null && lon != null) {
+        // 3. Se Modo Rua estiver ativo, localização é OBRIGATÓRIA
+        if (usuario.isModoRuaAtivo()) {
+            // Bloqueia imediatamente se nenhuma localização foi enviada
+            if (lat == null || lon == null) {
+                alertaService.registrar(
+                    usuario,
+                    "Tentativa de acesso bloqueada: localização não fornecida com Modo Rua ativo.",
+                    Alerta.TipoAlerta.ACESSO_NEGADO,
+                    null, null, null, ip
+                );
+                throw new RuntimeException("ACESSO_NEGADO_FORA_DA_ZONA");
+            }
+
             boolean naZona = localizacaoService.estaNaZonaSegura(usuario.getId(), lat, lon);
 
             if (!naZona) {
