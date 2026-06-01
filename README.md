@@ -22,7 +22,6 @@ Backend do projeto educacional "Crédito Seguro", responsável pela lógica de a
 - Spring Security + JWT
 - Spring Data JPA + Hibernate
 - PostgreSQL
-- JavaMailSender (envio de OTP)
 - Docker (para deploy)
 
 ## 📋 Endpoints Principais
