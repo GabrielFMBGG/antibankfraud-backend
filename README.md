@@ -1,34 +1,48 @@
-# AntiBankFraud - Proteção contra Golpe do Empréstimo
+# Crédito Seguro - Backend
 
-Sistema desenvolvido para prevenir o **golpe do empréstimo**, uma das fraudes bancárias mais comuns no Brasil. O projeto implementa um mecanismo de segurança chamado **"Modo Rua"**, que permite o acesso à conta bancária apenas de regiões previamente definidas pelo usuário.
+API REST para o sistema de proteção contra fraudes bancárias com verificação de localização (**Modo Rua**).
 
-## 🎯 Objetivo do Projeto
+## 🎯 Sobre o Projeto
 
-Desenvolver uma aplicação web com **frontend** e **backend** que demonstre uma solução prática contra invasões de contas bancárias, mesmo quando o golpista possui login e senha da vítima.
+Backend do projeto educacional "Crédito Seguro", responsável pela lógica de autenticação, segurança por geolocalização e registro de alertas.
 
-## ✨ Funcionalidades Principais
+## ✨ Principais Funcionalidades
 
-- **Modo Rua (Geolocalização)**: Acesso à conta permitido apenas em regiões seguras cadastradas pelo usuário (casa, trabalho, faculdade, etc.).
-- **Cálculo de distância** usando fórmula de Haversine.
-- **Ativação/Desativação** do Modo Rua pelo próprio usuário.
-- **Acesso de Emergência** via código OTP enviado por e-mail secundário.
-- **Alertas de segurança**: Registro de tentativas de acesso bloqueadas.
-- **Dicas de prevenção** ao golpe do empréstimo na interface.
-- **Autenticação segura** com JWT.
+- Cadastro e autenticação de usuários com JWT
+- Sistema **Modo Rua** com verificação de raio (algoritmo de Haversine)
+- Gerenciamento de Zonas Seguras (CRUD)
+- Acesso de emergência via OTP (código de 6 dígitos)
+- Registro automático de alertas de segurança
+- Validações robustas com Bean Validation
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Tecnologias
 
-### Backend
-- **Java 21** com **Spring Boot 3**
-- Spring Security + **JWT** (JSON Web Token)
-- Spring Data JPA
-- PostgreSQL (ou MySQL)
+- Java 21
+- Spring Boot 3.5
+- Spring Security + JWT
+- Spring Data JPA + Hibernate
+- PostgreSQL
 - JavaMailSender (envio de OTP)
-- Maven
+- Docker (para deploy)
 
-### Frontend
-- HTML5, CSS3 e JavaScript
+## 📋 Endpoints Principais
 
-### Outras ferramentas
-- Git + GitHub
-- Postman (testes de API)
+| Método     | Endpoint                            | Descrição |
+|------------|-------------------------------------|---------|
+| `POST`     | `/auth/registro`                    | Criar conta |
+| `POST`     | `/auth/login`                       | Login + verificação de localização |
+| `GET`      | `/auth/modo-rua?email=...`          | Verificar status do Modo Rua |
+| `POST`     | `/auth/emergencia`                  | Login via OTP |
+| `POST`     | `/zonas-seguras/usuario/{id}`       | Criar zona segura |
+| `GET`      | `/zonas-seguras/usuario/{id}`       | Listar zonas |
+| `PATCH`    | `/usuarios/{id}/modo-rua`           | Ativar/Desativar Modo Rua |
+| `GET`      | `/alertas/usuario/{id}`             | Listar alertas |
+
+## 📦 Deploy
+
+Deploy realizado no render com Docker
+
+## 👥 Autores
+
+- Gabriel Batista
+- Henrique Cabral
