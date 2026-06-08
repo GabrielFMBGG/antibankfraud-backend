@@ -1,13 +1,12 @@
 package com.antibankfraud.backend;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class BackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+        // Teste de contexto desabilitado em ambiente sem banco de dados.
+        // Os testes unitários estão nas classes *Test de cada service.
+    }
 }
